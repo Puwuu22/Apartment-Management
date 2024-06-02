@@ -196,6 +196,30 @@ $result = $conn->query($sql);
 
 </div>
 <!-- /.container-fluid -->
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="cudan.php" method="POST">
+        <div class="modal-body">
+          <p>Bạn có chắc chắn muốn xóa cư dân này không?</p>
+          <input type="hidden" name="delete_id" id="delete_id">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+          <button type="submit" name="delete_btn" class="btn btn-danger">Xóa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <style>
 .pagination {
     display: flex;
