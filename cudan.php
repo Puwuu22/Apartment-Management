@@ -4,7 +4,7 @@ include('includes/navbar.php');
 include('includes/db.php');
 
 // Số cư dân mỗi trang
-$limit = 5;
+$limit = 8;
 
 // Lấy trang hiện tại từ URL, nếu không có mặc định là trang 1
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -24,7 +24,7 @@ $result = $conn->query($sql);
 ?>
 
 <!-- Modal Thêm Cư Dân -->
-<div class="modal fade" id="addadminprofile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addResident" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -34,39 +34,38 @@ $result = $conn->query($sql);
         </button>
       </div>
       <form action="cudan.php" method="POST">
-
         <div class="modal-body">
             <div class="form-group">
                 <label>Mã cư dân</label>
-                <input type="id" name="macd" class="form-control" placeholder="VD: CD0001">
+                <input type="text" name="macd" class="form-control" placeholder="VD: CD0001" required>
             </div>
             <div class="form-group">
                 <label>Họ tên cư dân</label>
-                <input type="text" name="tencd" class="form-control" placeholder="Vui lòng nhập họ tên">
+                <input type="text" name="tencd" class="form-control" placeholder="Vui lòng nhập họ tên" required>
             </div>
             <div class="form-group">
                 <label>Giới tính</label>
-                <input type="gender" name="gioitinh" class="form-control" placeholder="">
+                <input type="text" name="gioitinh" class="form-control" placeholder="" required>
             </div>
             <div class="form-group">
                 <label>Số điện thoại</label>
-                <input type="text" name="sdt" class="form-control" placeholder="">
+                <input type="text" name="sdt" class="form-control" placeholder="" required>
             </div>
             <div class="form-group">
                 <label>Ngày sinh</label>
-                <input type="date" name="ngsinh" class="form-control" placeholder="">
+                <input type="date" name="ngsinh" class="form-control" placeholder="" required>
             </div>
             <div class="form-group">
                 <label>Quê quán</label>
-                <input type="text" name="quequan" class="form-control" placeholder="">
+                <input type="text" name="quequan" class="form-control" placeholder="" required>
             </div>
             <div class="form-group">
-                <label>Mã hộ</label>
-                <input type="id" name="maho" class="form-control" placeholder="">
+                <label>Mã căn hộ</label>
+                <input type="text" name="mach" class="form-control" placeholder="" required>
             </div>
             <div class="form-group">
                 <label>Ngày vào ở</label>
-                <input type="date" name="ngvaoo" class="form-control" placeholder="">
+                <input type="date" name="ngvaoo" class="form-control" placeholder="" required>
             </div>
         </div>
         <div class="modal-footer">
@@ -74,10 +73,10 @@ $result = $conn->query($sql);
             <button type="submit" name="registerbtn" class="btn btn-primary">Lưu</button>
         </div>
       </form>
-
     </div>
   </div>
 </div>
+
 
 <!-- Modal Sửa Cư Dân -->
 <div class="modal fade" id="editResidentModal" tabindex="-1" role="dialog" aria-labelledby="editResidentLabel" aria-hidden="true">
@@ -114,8 +113,8 @@ $result = $conn->query($sql);
                 <input type="text" name="quequan" id="edit_quequan" class="form-control" placeholder="">
             </div>
             <div class="form-group">
-                <label>Mã hộ</label>
-                <input type="id" name="maho" id="edit_maho" class="form-control" placeholder="">
+                <label>Mã căn hộ</label>
+                <input type="id" name="mach" id="edit_mach" class="form-control" placeholder="">
             </div>
             <div class="form-group">
                 <label>Ngày vào ở</label>
@@ -139,10 +138,29 @@ $result = $conn->query($sql);
 <div class="card shadow mb-4">
   <div class="card-header py-3">
     <h6 class="m-0 font-weight-bold text-primary">Thông tin cư dân
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addadminprofile" style="background:#447FC2; border:none;">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addResident" style="background:#447FC2; border:none;">
               Thêm cư dân mới 
             </button>
     </h6>
+    <?php
+if (isset($_POST['registerbtn'])) {
+    $macd = $_POST['macd'];
+    $tencd = $_POST['tencd'];
+    $gioitinh = $_POST['gioitinh'];
+    $sdt = $_POST['sdt'];
+    $ngsinh = $_POST['ngsinh'];
+    $quequan = $_POST['quequan'];
+    $mach = $_POST['mach'];
+    $ngvaoo = $_POST['ngvaoo'];
+
+    $sql = "INSERT INTO cudan (MaCD, TenCD, GioiTinh, SDT, NgSinh, QueQuan, MaCH, NgVaoO) VALUES ('$macd', '$tencd', '$gioitinh', '$sdt', '$ngsinh', '$quequan', '$mach', '$ngvaoo')";
+    if ($conn->query($sql) === TRUE) {
+        echo "Thêm cư dân mới thành công";
+    } else {
+        echo "Lỗi: " . $sql . "<br>" . $conn->error;
+    }
+}
+?>
   </div>
   <div class="card-body">
 
@@ -173,10 +191,10 @@ $result = $conn->query($sql);
                 echo "<td>" . $row['SDT'] . "</td>";
                 echo "<td>" . $row['NgSinh'] . "</td>";
                 echo "<td>" . $row['QueQuan'] . "</td>";
-                echo "<td>" . $row['MaHo'] . "</td>";
+                echo "<td>" . $row['MaCH'] . "</td>";
                 echo "<td>" . $row['NgVaoO'] . "</td>";
                 echo "<td>
-                    <button type='button' class='btn btn-success editBtn' data-id='" . $row['MaCD'] . "' data-ten='" . $row['TenCD'] . "' data-gioitinh='" . $row['GioiTinh'] . "' data-sdt='" . $row['SDT'] . "' data-ngsinh='" . $row['NgSinh'] . "' data-quequan='" . $row['QueQuan'] . "' data-maho='" . $row['MaHo'] . "' data-ngvaoo='" . $row['NgVaoO'] . "'>Sửa</button>
+                    <button type='button' class='btn btn-success editBtn' data-id='" . $row['MaCD'] . "' data-ten='" . $row['TenCD'] . "' data-gioitinh='" . $row['GioiTinh'] . "' data-sdt='" . $row['SDT'] . "' data-ngsinh='" . $row['NgSinh'] . "' data-quequan='" . $row['QueQuan'] . "' data-mach='" . $row['MaCH'] . "' data-ngvaoo='" . $row['NgVaoO'] . "'>Sửa</button>
                 </td>";
                 echo "<td>
                     <button type='button' class='btn btn-danger deleteBtn' data-toggle='modal' data-target='#deleteModal' data-id='" . $row['MaCD'] . "'>Xóa</button>
@@ -207,7 +225,7 @@ $result = $conn->query($sql);
         </button>
       </div>
       <form action="cudan.php" method="POST">
-        <div class="modal-body">
+       <div class="modal-body">
           <p>Bạn có chắc chắn muốn xóa cư dân này không?</p>
           <input type="hidden" name="delete_id" id="delete_id">
         </div>
@@ -219,6 +237,7 @@ $result = $conn->query($sql);
     </div>
   </div>
 </div>
+
 
 <style>
 .pagination {
@@ -257,6 +276,8 @@ include('includes/scripts.php');
 include('includes/footer.php');
 ?>
 
+
+
 <script>
 $(document).ready(function() {
     $('.editBtn').on('click', function() {
@@ -268,7 +289,7 @@ $(document).ready(function() {
         var sdt = $(this).data('sdt');
         var ngsinh = $(this).data('ngsinh');
         var quequan = $(this).data('quequan');
-        var maho = $(this).data('maho');
+        var mach = $(this).data('mach');
         var ngvaoo = $(this).data('ngvaoo');
 
         $('#edit_macd').val(macd);
@@ -277,7 +298,7 @@ $(document).ready(function() {
         $('#edit_sdt').val(sdt);
         $('#edit_ngsinh').val(ngsinh);
         $('#edit_quequan').val(quequan);
-        $('#edit_maho').val(maho);
+        $('#edit_mach').val(mach);
         $('#edit_ngvaoo').val(ngvaoo);
     });
 
@@ -285,22 +306,41 @@ $(document).ready(function() {
         var delete_id = $(this).data('id');
         $('#delete_id').val(delete_id);
     });
+
 });
+
 </script>
 
-
 <?php
-// Xóa cư dân
-if (isset($_GET['delete'])) {
-    $macd = $_GET['delete'];
-    $sql = "DELETE FROM cudan WHERE MaCD='$macd'";
+// Xử lý thêm cư dân mới
+if (isset($_POST['registerbtn'])) {
+    $macd = $_POST['macd'];
+    $tencd = $_POST['tencd'];
+    $gioitinh = $_POST['gioitinh'];
+    $sdt = $_POST['sdt'];
+    $ngsinh = $_POST['ngsinh'];
+    $quequan = $_POST['quequan'];
+    $mach = $_POST['mach'];
+    $ngvaoo = $_POST['ngvaoo'];
+
+    $sql = "INSERT INTO cudan (MaCD, TenCD, GioiTinh, SDT, NgSinh, QueQuan, MaCH, NgVaoO) VALUES ('$macd', '$tencd', '$gioitinh', '$sdt', '$ngsinh', '$quequan', '$mach', '$ngvaoo')";
     if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Xóa cư dân thành công'); window.location.href='cudan.php';</script>";
+        echo "<script>alert('Thêm cư dân mới thành công'); window.location.href='cudan.php';</script>";
     } else {
-        echo "Lỗi: " . $conn->error;
+        echo "Lỗi: " . $sql . "<br>" . $conn->error;
     }
 }
 
+// Xóa cư dân
+if (isset($_POST['delete_btn'])) {
+  $macd = $_POST['delete_id'];
+  $sql = "DELETE FROM cudan WHERE MaCD='$macd'";
+  if ($conn->query($sql) === TRUE) {
+    echo "<script>alert('Xóa cư dân thành công'); window.location.href='nhanvien.php';</script>";
+} else {
+    echo "Lỗi: " . $conn->error;
+}
+}
 // Sửa cư dân
 if (isset($_POST['update_resident'])) {
     $macd = $_POST['macd'];
@@ -309,10 +349,10 @@ if (isset($_POST['update_resident'])) {
     $sdt = $_POST['sdt'];
     $ngsinh = $_POST['ngsinh'];
     $quequan = $_POST['quequan'];
-    $maho = $_POST['maho'];
+    $mach = $_POST['mach'];
     $ngvaoo = $_POST['ngvaoo'];
 
-    $sql = "UPDATE cudan SET TenCD='$tencd', GioiTinh='$gioitinh', SDT='$sdt', NgSinh='$ngsinh', QueQuan='$quequan', MaHo='$maho', NgVaoO='$ngvaoo' WHERE MaCD='$macd'";
+    $sql = "UPDATE cudan SET TenCD='$tencd', GioiTinh='$gioitinh', SDT='$sdt', NgSinh='$ngsinh', QueQuan='$quequan', MaCH='$mach', NgVaoO='$ngvaoo' WHERE MaCD='$macd'";
     if ($conn->query($sql) === TRUE) {
         echo "<script>alert('Cập nhật cư dân thành công'); window.location.href='cudan.php';</script>";
     } else {

@@ -27,6 +27,13 @@
   Quản lý chung
 </div>
 
+<li class="nav-item">
+  <a class="nav-link" href="canho.php">
+  <i class="fas fa-fw fa-home"></i>
+    <span>Căn hộ</span></a>
+</li>
+
+
 <!-- Nav Item - Pages Collapse Menu -->
 
 <li class="nav-item">
@@ -44,7 +51,7 @@
 </li>
 
 
-<!-- Nav Item - Utilities Collapse Menu -->
+<!-- Nav Item - Utilities Collapse Menu 
 <li class="nav-item">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
   <i class="fas fa-fw fa-user-friends"></i>
@@ -57,7 +64,14 @@
       <a class="collapse-item" href="cudan.php">Cư dân</a>
     </div>
   </div>
+</li>-->
+
+<li class="nav-item">
+  <a class="nav-link" href="cudan.php">
+  <i class="fas fa-fw fa-user-friends"></i>
+    <span>Cư dân</span></a>
 </li>
+
 
 <li class="nav-item">
   <a class="nav-link" href="hoadon.php">
@@ -91,14 +105,6 @@
 </li>
 
 
-<li class="nav-item">
-  <a class="nav-link" href="register.php">
-  <i class="fas fa-fw fa-tasks"></i>
-    <span>Tài khoản</span></a>
-</li>
-
-
-
 <!-- Divider -->
 <hr class="sidebar-divider">
 
@@ -126,14 +132,14 @@
 
 <!-- Nav Item - Charts -->
 <li class="nav-item">
-  <a class="nav-link" href="charts.html">
+  <a class="nav-link" href="thongke.php">
     <i class="fas fa-fw fa-chart-area"></i>
     <span>Thống kê</span></a>
 </li>
 
 <!-- Nav Item - Tables -->
 <li class="nav-item">
-  <a class="nav-link" href="tables.html">
+  <a class="nav-link" href="baocao.php">
     <i class="fas fa-fw fa-table"></i>
     <span>Báo cáo</span></a>
 </li>
